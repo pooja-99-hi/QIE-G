@@ -1,0 +1,8 @@
+{
+  "name": "QIE Guardian Protocol",
+  "description": "A production-grade Web3 security and portfolio management platform featuring real-time threat monitoring, contract scanning, and transaction firewall capabilities.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
