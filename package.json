@@ -1,3 +1,4 @@
+
 {
   "name": "qie-guardian-protocol",
   "version": "1.0.0",
@@ -5,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch server.ts",
-    "dev:client": "serve . -p 8080",
+    "dev:client": "vite",
     "build": "tsc && vite build",
     "start": "node dist/server.js",
     "lint": "eslint . --ext .ts,.tsx",
@@ -33,6 +34,7 @@
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
     "serve": "^14.2.4",
     "tsx": "^4.19.2",

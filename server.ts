@@ -1,5 +1,5 @@
 
-import express, { Request, Response, NextAction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Auth Middleware
-const authMiddleware = (req: Request, res: Response, next: NextAction) => {
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ success: false, error: 'Unauthorized' });
   try {
