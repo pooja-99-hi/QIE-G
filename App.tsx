@@ -3,7 +3,6 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import LandingPage from './views/LandingPage';
 import Dashboard from './views/Dashboard';
 import LoginPage from './views/LoginPage';
-import { MOCK_PERSONAS } from './constants';
 import { User } from './types';
 
 type View = 'landing' | 'login' | 'dashboard';
@@ -13,7 +12,7 @@ interface AppContextType {
   setView: (view: View) => void;
   isAuthenticated: boolean;
   currentUser: User;
-  login: () => void;
+  loginWithIdentity: (name: string) => void;
   logout: () => void;
 }
 
@@ -28,7 +27,11 @@ export const useApp = () => {
 const App: React.FC = () => {
   const [view, setView] = useState<View>('landing');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<User>(MOCK_PERSONAS[0]);
+  const [currentUser, setCurrentUser] = useState<User>({
+    name: 'Ghost Operator',
+    wallet: '0x0000...0000',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ghost'
+  });
 
   useEffect(() => {
     const token = sessionStorage.getItem('auth_token');
@@ -40,18 +43,18 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const login = () => {
-    // Determine persona based on current rotation
-    const lastIndex = parseInt(localStorage.getItem('persona_index') || '0');
-    const nextIndex = (lastIndex + 1) % MOCK_PERSONAS.length;
-    const persona = MOCK_PERSONAS[nextIndex];
+  const loginWithIdentity = (name: string) => {
+    const identity: User = {
+      name: name,
+      wallet: '0x' + Math.random().toString(16).substr(2, 8) + '...' + Math.random().toString(16).substr(2, 4),
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
+      email: `${name.toLowerCase().replace(' ', '.')}@guardian.io`
+    };
     
-    // Simulate professional auth flow
-    sessionStorage.setItem('auth_token', 'qie_guardian_secure_jwt_' + Math.random().toString(36).substr(2));
-    localStorage.setItem('persona_index', nextIndex.toString());
-    localStorage.setItem('current_user', JSON.stringify(persona));
+    sessionStorage.setItem('auth_token', 'qie_guardian_jwt_' + Math.random().toString(36).substr(2));
+    localStorage.setItem('current_user', JSON.stringify(identity));
     
-    setCurrentUser(persona);
+    setCurrentUser(identity);
     setIsAuthenticated(true);
     setView('dashboard');
   };
@@ -71,7 +74,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <AppContext.Provider value={{ view, setView, isAuthenticated, currentUser, login, logout }}>
+    <AppContext.Provider value={{ view, setView, isAuthenticated, currentUser, loginWithIdentity, logout }}>
       <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-950">
         {renderView()}
       </div>

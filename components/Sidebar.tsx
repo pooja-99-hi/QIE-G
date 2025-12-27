@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   LayoutDashboard, 
@@ -6,10 +5,9 @@ import {
   Wallet, 
   Activity, 
   ShieldAlert, 
-  Settings, 
   LogOut,
   Zap,
-  TrendingUp
+  Layers
 } from 'lucide-react';
 import { useApp } from '../App';
 
@@ -26,6 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
     { id: 'scanner', icon: ShieldCheck, label: 'Contract Scanner' },
     { id: 'portfolio', icon: Wallet, label: 'Portfolio' },
     { id: 'firewall', icon: ShieldAlert, label: 'TX Firewall' },
+    { id: 'architecture', icon: Layers, label: 'Architecture' },
     { id: 'validators', icon: Activity, label: 'Validators' },
     { id: 'insurance', icon: Zap, label: 'Insurance' },
   ];

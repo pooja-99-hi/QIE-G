@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import StatCard from '../components/StatCard';
@@ -6,6 +5,7 @@ import PortfolioChart from '../components/PortfolioChart';
 import ContractScanner from '../components/ContractScanner';
 import TransactionFirewall from '../components/TransactionFirewall';
 import LiveThreatFeed from '../components/LiveThreatFeed';
+import ArchitectureDiagram from '../components/ArchitectureDiagram';
 import { useApp } from '../App';
 import { MOCK_ASSETS, MOCK_VALIDATORS, INSURANCE_POOLS } from '../constants';
 import { 
@@ -46,7 +46,6 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
-  const [insuranceValue, setInsuranceValue] = useState(50000);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'vault' | 'stake' | 'exit' | null>(null);
   
@@ -108,7 +107,7 @@ const Dashboard: React.FC = () => {
             {filteredAssets.slice(0, 4).map((asset) => (
               <div key={asset.symbol} className="p-4 bg-slate-900/30 rounded-2xl border border-slate-800/50 hover:bg-slate-900/50 transition-all flex justify-between items-center cursor-pointer group">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">{asset.icon}</div>
+                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform">{asset.icon}</div>
                   <div>
                     <p className="font-bold text-white">{asset.symbol}</p>
                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{asset.chain} Network</p>
@@ -139,12 +138,8 @@ const Dashboard: React.FC = () => {
           <div className="space-y-4 relative z-10">
             <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-2xl">
               <p className="text-sm font-bold text-amber-300">Stale Permission Flag</p>
-              <p className="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">External DEX 0x8a...e1 has active unlimited allowance. Potential drain vulnerability.</p>
+              <p className="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">External DEX 0x8a...e1 has active unlimited allowance.</p>
               <button onClick={() => handleAction("Revoking allowance on QIE Mainnet...")} className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[10px] uppercase rounded-xl transition-all">Revoke Now</button>
-            </div>
-            <div className="p-4 bg-rose-500/5 border border-rose-500/20 rounded-2xl">
-              <p className="text-sm font-bold text-rose-300">Malicious Interaction Intercepted</p>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">Guardian Semantic Engine blocked a request to a blacklisted phishing address.</p>
             </div>
           </div>
         </div>
@@ -233,6 +228,32 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         );
+      case 'architecture': 
+        return (
+          <div className="animate-slide-up space-y-8">
+            <div className="max-w-3xl">
+              <h3 className="text-2xl font-black mb-2">Protocol Architecture</h3>
+              <p className="text-slate-500 text-sm leading-relaxed mb-8">
+                Visualizing the three core layers of the QIE Guardian Protocol. This isometric map shows the real-time interaction between our frontend, the QSIE intelligence core, and the underlying QIE Mainnet.
+              </p>
+            </div>
+            <ArchitectureDiagram />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+               <div className="p-6 bg-slate-900/50 rounded-3xl border border-slate-800">
+                  <h4 className="font-bold text-emerald-400 mb-2">Observability</h4>
+                  <p className="text-xs text-slate-500">Sub-second telemetry updates via React 19 concurrent rendering.</p>
+               </div>
+               <div className="p-6 bg-slate-900/50 rounded-3xl border border-slate-800">
+                  <h4 className="font-bold text-blue-400 mb-2">QSIE Core</h4>
+                  <p className="text-xs text-slate-500">Semantic intent mapping powered by Google Gemini 3.0 Pro.</p>
+               </div>
+               <div className="p-6 bg-slate-900/50 rounded-3xl border border-slate-800">
+                  <h4 className="font-bold text-slate-400 mb-2">QIE Settlement</h4>
+                  <p className="text-xs text-slate-500">Direct RPC connectivity for atomic transaction interception.</p>
+               </div>
+            </div>
+          </div>
+        );
       case 'validators': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><Activity className="w-12 h-12 text-blue-400 mx-auto mb-6" /><p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Validator Fleet Intel Loading...</p></div>;
       case 'insurance': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><Zap className="w-12 h-12 text-emerald-400 mx-auto mb-6" /><p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Initializing Coverage Engine...</p></div>;
       case 'settings': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><SettingsIcon className="w-12 h-12 text-slate-600 mx-auto mb-6" /><p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Opening Protocol Vault Settings...</p></div>;
@@ -305,10 +326,10 @@ const Dashboard: React.FC = () => {
             {activeTab === 'overview' && (
               <div className="flex gap-4">
                 <button 
-                  onClick={() => handleAction("Loading Global Network Log...")}
+                  onClick={() => setActiveTab('architecture')}
                   className="flex items-center gap-2 px-6 py-3 bg-slate-900/80 border border-slate-800 rounded-2xl text-sm font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-all"
                 >
-                  <History className="w-4 h-4" /> Activity Log
+                  <Layers className="w-4 h-4" /> System View
                 </button>
                 <button 
                   onClick={() => openModal('vault')}
