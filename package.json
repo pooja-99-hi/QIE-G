@@ -1,4 +1,3 @@
-
 {
   "name": "qie-guardian-protocol",
   "version": "1.0.0",
@@ -9,7 +8,6 @@
     "dev:client": "vite",
     "build": "tsc && vite build",
     "start": "node dist/server.js",
-    "lint": "eslint . --ext .ts,.tsx",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -36,7 +34,6 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
-    "serve": "^14.2.4",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.0"
