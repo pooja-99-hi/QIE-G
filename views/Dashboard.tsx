@@ -49,22 +49,13 @@ const Dashboard: React.FC = () => {
   const [insuranceValue, setInsuranceValue] = useState(50000);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'vault' | 'stake' | 'exit' | null>(null);
-  const [stakeAmount, setStakeAmount] = useState(1000);
-  const [riskProfile, setRiskProfile] = useState<'SAFE' | 'BALANCED' | 'AGGRESSIVE'>('BALANCED');
   
-  // Dynamic greeting logic
   const getGreeting = () => {
-    if (currentUser.name.includes('Sterling')) return "Systems online, Architect Sterling.";
-    if (currentUser.name.includes('Vance')) return "Market Intel synchronized, Researcher Vance.";
-    if (currentUser.name.includes('Thorne')) return "Validators responding, Commander Thorne.";
-    return `Welcome back, ${currentUser.name.split(' ')[0]}`;
+    if (currentUser.name.includes('Sterling')) return "QIE Mainnet Ops Online, Architect Sterling.";
+    if (currentUser.name.includes('Vance')) return "Market Intelligence Synchronized, Researcher Vance.";
+    if (currentUser.name.includes('Thorne')) return "Security Fleet Responding, Commander Thorne.";
+    return `Welcome to Guardian, ${currentUser.name.split(' ')[0]}`;
   };
-
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: 'Malicious Swap Blocked', desc: 'Attempted drain of 12.4 ETH intercepted on DEX V2.', time: '1m ago', unread: true },
-    { id: 2, title: 'Staking Reward', desc: 'Received 45.2 QIE from Genesis Validator.', time: '2h ago', unread: true },
-    { id: 3, title: 'Security Audit Complete', desc: 'Scan of 0x742d...f44e passed with a score of 98/100.', time: '5h ago', unread: false },
-  ]);
 
   const openModal = (type: 'vault' | 'stake' | 'exit') => {
     setModalType(type);
@@ -84,16 +75,16 @@ const Dashboard: React.FC = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-slide-up">
       <div className="lg:col-span-2 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <StatCard label="Net Value" value="$37,350.42" change="12.5%" isPositive icon={TrendingUp} color="emerald" />
-          <StatCard label="Protected Layers" value="8/8" change="Active" isPositive icon={ShieldCheck} color="blue" />
-          <StatCard label="Threat Intercepts" value="4" change="Today" isPositive icon={ShieldAlert} color="rose" />
+          <StatCard label="Protected Net Value" value="$37,350.42" change="12.5%" isPositive icon={TrendingUp} color="emerald" />
+          <StatCard label="Semantic Shield Layers" value="8/8" change="Active" isPositive icon={ShieldCheck} color="blue" />
+          <StatCard label="Threats Neutralized" value="4" change="Today" isPositive icon={ShieldAlert} color="rose" />
         </div>
         
         <div className="glass p-8 rounded-[32px] border border-slate-800">
           <div className="flex justify-between items-start mb-6">
             <div>
-              <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mb-1">Protection Coverage</p>
-              <h3 className="text-3xl font-black text-white">Security History</h3>
+              <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mb-1">Global Coverage History</p>
+              <h3 className="text-3xl font-black text-white">Network Safety Index</h3>
             </div>
             <div className="flex gap-2 bg-slate-900/50 p-1 rounded-xl border border-slate-800">
               {['1D', '7D', '1M', 'ALL'].map((p) => (
@@ -108,25 +99,25 @@ const Dashboard: React.FC = () => {
 
         <div className="glass p-8 rounded-[32px] border border-slate-800">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-bold">Priority Holdings</h3>
+            <h3 className="text-xl font-bold">Secured Inventory</h3>
             <button onClick={() => setActiveTab('portfolio')} className="text-emerald-400 text-sm font-bold flex items-center gap-1 hover:underline">
-              Full Inventory <ExternalLink className="w-3 h-3" />
+              Full Portfolio <ExternalLink className="w-3 h-3" />
             </button>
           </div>
           <div className="space-y-4">
             {filteredAssets.slice(0, 4).map((asset) => (
-              <div key={asset.symbol} className="p-4 bg-slate-900/30 rounded-2xl border border-slate-800/50 hover:bg-slate-900/50 transition-all flex justify-between items-center cursor-pointer">
+              <div key={asset.symbol} className="p-4 bg-slate-900/30 rounded-2xl border border-slate-800/50 hover:bg-slate-900/50 transition-all flex justify-between items-center cursor-pointer group">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-2xl">{asset.icon}</div>
+                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">{asset.icon}</div>
                   <div>
                     <p className="font-bold text-white">{asset.symbol}</p>
-                    <p className="text-xs text-slate-500 font-medium uppercase tracking-widest">{asset.chain} Network</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{asset.chain} Network</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-slate-100">${asset.value.toLocaleString()}</p>
-                  <p className={`text-xs font-black ${asset.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                    {asset.change >= 0 ? '+' : ''}{asset.change}%
+                  <p className={`text-[10px] font-black ${asset.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {asset.change >= 0 ? '↑' : '↓'} {Math.abs(asset.change)}%
                   </p>
                 </div>
               </div>
@@ -143,17 +134,17 @@ const Dashboard: React.FC = () => {
           </div>
           <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-rose-500" />
-            Firewall Alerts
+            QIE Firewall Alerts
           </h3>
           <div className="space-y-4 relative z-10">
             <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-2xl">
-              <p className="text-sm font-bold text-amber-300">Stale Approval Found</p>
-              <p className="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">DEX Router 0x8a...e1 has unlimited allowance. Risks: Bridge Drain.</p>
-              <button onClick={() => handleAction("Approval revoked!")} className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[10px] uppercase rounded-xl transition-all">Revoke Instantly</button>
+              <p className="text-sm font-bold text-amber-300">Stale Permission Flag</p>
+              <p className="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">External DEX 0x8a...e1 has active unlimited allowance. Potential drain vulnerability.</p>
+              <button onClick={() => handleAction("Revoking allowance on QIE Mainnet...")} className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[10px] uppercase rounded-xl transition-all">Revoke Now</button>
             </div>
             <div className="p-4 bg-rose-500/5 border border-rose-500/20 rounded-2xl">
-              <p className="text-sm font-bold text-rose-300">Phishing Pattern Detected</p>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">Guardian AI blocked a transaction to known drainer address 0xdead...beef.</p>
+              <p className="text-sm font-bold text-rose-300">Malicious Interaction Intercepted</p>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">Guardian Semantic Engine blocked a request to a blacklisted phishing address.</p>
             </div>
           </div>
         </div>
@@ -171,15 +162,15 @@ const Dashboard: React.FC = () => {
           <div className="animate-slide-up space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="glass p-6 rounded-3xl text-center">
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">Asset Entities</p>
-                <p className="text-3xl font-black">8 Assets</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Asset Distribution</p>
+                <p className="text-3xl font-black">8 Entities</p>
               </div>
               <div className="glass p-6 rounded-3xl text-center">
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">Inter-Op Networks</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Connected Layers</p>
                 <p className="text-3xl font-black">4 Chains</p>
               </div>
               <div className="glass p-6 rounded-3xl text-center border-emerald-500/30">
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">Safety Index</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Safety Index</p>
                 <p className="text-3xl font-black text-emerald-400">98.4%</p>
               </div>
               <button 
@@ -187,16 +178,16 @@ const Dashboard: React.FC = () => {
                 className="bg-rose-500 hover:bg-rose-400 p-6 rounded-3xl text-slate-950 font-black flex flex-col items-center justify-center transition-all group shadow-xl shadow-rose-500/10"
               >
                 <X className="w-6 h-6 mb-1 group-hover:scale-110 transition-transform" />
-                Emergency Liquidation
+                Emergency Evac
               </button>
             </div>
             
             <div className="glass rounded-[32px] overflow-hidden border border-slate-800">
                <div className="p-8 border-b border-slate-800 flex justify-between items-center bg-slate-900/20">
-                 <h3 className="text-xl font-bold">Secured Inventory</h3>
+                 <h3 className="text-xl font-bold tracking-tight">QIE Vault Inventory</h3>
                  <div className="flex gap-4">
-                   <button onClick={() => handleAction("Exporting Log...")} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 text-sm font-bold text-slate-300 hover:text-white transition-all"><Download className="w-4 h-4" /> CSV</button>
-                   <button onClick={() => handleAction("Protocol Asset Entry...")} className="flex items-center gap-2 px-6 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-sm hover:bg-emerald-400 transition-all"><Plus className="w-4 h-4" /> Add Asset</button>
+                   <button onClick={() => handleAction("Exporting QIE Data...")} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 text-sm font-bold text-slate-300 hover:text-white transition-all"><Download className="w-4 h-4" /> CSV</button>
+                   <button onClick={() => handleAction("Adding new tracked asset...")} className="flex items-center gap-2 px-6 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-sm hover:bg-emerald-400 transition-all"><Plus className="w-4 h-4" /> Register Asset</button>
                  </div>
                </div>
                <div className="overflow-x-auto">
@@ -204,10 +195,10 @@ const Dashboard: React.FC = () => {
                     <thead className="bg-slate-950/50">
                       <tr className="text-left text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] border-b border-slate-800">
                         <th className="px-8 py-5">Entity</th>
-                        <th className="px-8 py-5">Network Context</th>
+                        <th className="px-8 py-5">Environment</th>
                         <th className="px-8 py-5">Balance</th>
                         <th className="px-8 py-5 text-right">Value USD</th>
-                        <th className="px-8 py-5 text-right">Protection Status</th>
+                        <th className="px-8 py-5 text-right">Verification</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/50">
@@ -215,23 +206,23 @@ const Dashboard: React.FC = () => {
                         <tr key={asset.symbol} className="group hover:bg-slate-900/30 transition-colors">
                           <td className="px-8 py-6">
                             <div className="flex items-center gap-4">
-                              <span className="text-2xl">{asset.icon}</span>
+                              <span className="text-2xl group-hover:rotate-12 transition-transform">{asset.icon}</span>
                               <div>
                                 <p className="font-bold text-white">{asset.name}</p>
-                                <p className="text-xs text-slate-500 mono">{asset.symbol}</p>
+                                <p className="text-[10px] text-slate-500 font-bold tracking-widest">{asset.symbol}</p>
                               </div>
                             </div>
                           </td>
                           <td className="px-8 py-6">
-                            <span className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[10px] font-bold text-slate-400 tracking-wider">
-                              {asset.chain} MAINNET
+                            <span className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[10px] font-bold text-slate-400 tracking-widest">
+                              {asset.chain} OPS
                             </span>
                           </td>
                           <td className="px-8 py-6 text-sm font-medium mono text-slate-300">{asset.balance}</td>
                           <td className="px-8 py-6 text-right font-bold text-white">${asset.value.toLocaleString()}</td>
-                          <td className="px-8 py-6 text-right font-black">
-                            <span className="px-3 py-1 rounded-lg text-emerald-400 bg-emerald-400/5 text-[9px] uppercase tracking-widest border border-emerald-500/10">
-                              Verified
+                          <td className="px-8 py-6 text-right">
+                            <span className="px-3 py-1 rounded-lg text-emerald-400 bg-emerald-400/5 text-[9px] font-black uppercase tracking-widest border border-emerald-500/10">
+                              Insured
                             </span>
                           </td>
                         </tr>
@@ -242,17 +233,17 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         );
-      case 'validators': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><p className="text-slate-500 font-bold">Redirecting to Validator Fleet Intelligence...</p></div>;
-      case 'insurance': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><p className="text-slate-500 font-bold">Initializing Underwriting Engine...</p></div>;
-      case 'settings': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><p className="text-slate-500 font-bold">Opening Protocol Preferences...</p></div>;
+      case 'validators': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><Activity className="w-12 h-12 text-blue-400 mx-auto mb-6" /><p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Validator Fleet Intel Loading...</p></div>;
+      case 'insurance': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><Zap className="w-12 h-12 text-emerald-400 mx-auto mb-6" /><p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Initializing Coverage Engine...</p></div>;
+      case 'settings': return <div className="text-center p-20 glass rounded-[48px] border border-slate-800"><SettingsIcon className="w-12 h-12 text-slate-600 mx-auto mb-6" /><p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Opening Protocol Vault Settings...</p></div>;
       default: return null;
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-950 flex pl-64 overflow-hidden relative">
-      <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
-      <div className="fixed bottom-0 left-64 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
+      <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="fixed bottom-0 left-64 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
       
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       
@@ -262,7 +253,7 @@ const Dashboard: React.FC = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4 transition-colors group-focus-within:text-emerald-400" />
             <input 
               type="text" 
-              placeholder="Search assets, threats, or node status... (Ctrl+K)"
+              placeholder="Query protocol, nodes, or security events... (Ctrl+K)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-3.5 pl-12 pr-6 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 text-sm transition-all placeholder:text-slate-600 font-medium"
@@ -272,8 +263,8 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center gap-6">
             <div className="hidden xl:flex items-center gap-4">
               <div className="flex flex-col items-end">
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none mb-1">QIE Net Ops</span>
-                <span className="text-sm font-bold text-emerald-400">Stable • 12ms Block</span>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none mb-1">QIE Network Status</span>
+                <span className="text-sm font-bold text-emerald-400">NOMINAL • 1.2s Block</span>
               </div>
               <div className="w-px h-8 bg-slate-800" />
             </div>
@@ -281,7 +272,7 @@ const Dashboard: React.FC = () => {
             <div className="flex items-center gap-4 relative">
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
-                className={`w-12 h-12 rounded-2xl border border-slate-800 flex items-center justify-center transition-all relative ${showNotifications ? 'bg-slate-800 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                className={`w-12 h-12 rounded-2xl border border-slate-800 flex items-center justify-center transition-all relative ${showNotifications ? 'bg-slate-800 text-white shadow-lg shadow-slate-800/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
               >
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-3.5 right-3.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-slate-950" />
@@ -289,10 +280,10 @@ const Dashboard: React.FC = () => {
 
               <div className="flex items-center gap-3 pl-4 border-l border-slate-800 group cursor-pointer" onClick={() => setActiveTab('settings')}>
                 <div className="text-right hidden sm:block">
-                  <p className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors leading-none mb-1">{currentUser.name}</p>
+                  <p className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors leading-none mb-1 tracking-tight">{currentUser.name}</p>
                   <p className="text-[10px] text-slate-500 font-bold mono leading-none tracking-tighter">{currentUser.wallet}</p>
                 </div>
-                <div className="w-12 h-12 rounded-2xl overflow-hidden border-2 border-slate-800 group-hover:border-emerald-500/50 transition-all p-0.5 shadow-lg">
+                <div className="w-12 h-12 rounded-2xl overflow-hidden border-2 border-slate-800 group-hover:border-emerald-500/50 transition-all p-0.5 shadow-xl">
                   <img src={currentUser.avatar} alt="Profile" className="w-full h-full rounded-[14px] object-cover" />
                 </div>
               </div>
@@ -305,7 +296,7 @@ const Dashboard: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50 animate-pulse" />
-                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em]">Protocol Shield Active</span>
+                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em]">Guardian Mesh Active</span>
               </div>
               <h2 className="text-4xl font-black text-white tracking-tight capitalize">
                 {activeTab === 'overview' ? getGreeting() : activeTab.replace('_', ' ')}
@@ -314,7 +305,7 @@ const Dashboard: React.FC = () => {
             {activeTab === 'overview' && (
               <div className="flex gap-4">
                 <button 
-                  onClick={() => handleAction("Loading Global Threat Map...")}
+                  onClick={() => handleAction("Loading Global Network Log...")}
                   className="flex items-center gap-2 px-6 py-3 bg-slate-900/80 border border-slate-800 rounded-2xl text-sm font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-all"
                 >
                   <History className="w-4 h-4" /> Activity Log
@@ -323,7 +314,7 @@ const Dashboard: React.FC = () => {
                   onClick={() => openModal('vault')}
                   className="flex items-center gap-2 px-8 py-3 bg-emerald-500 text-slate-950 rounded-2xl text-sm font-black hover:scale-[1.02] transition-all shadow-xl shadow-emerald-500/10"
                 >
-                  <Plus className="w-4 h-4" /> New Security Vault
+                  <Plus className="w-4 h-4" /> Create Secure Vault
                 </button>
               </div>
             )}
@@ -333,12 +324,12 @@ const Dashboard: React.FC = () => {
             {renderContent()}
           </div>
 
-          <footer className="mt-20 py-12 border-t border-slate-900 flex justify-between items-center text-slate-600 text-[10px] font-bold uppercase tracking-widest">
-            <p>&copy; 2024 QIE Guardian Protocol v2.5.0-RC1</p>
+          <footer className="mt-20 py-12 border-t border-slate-900 flex justify-between items-center text-slate-700 text-[10px] font-black uppercase tracking-[0.2em]">
+            <p>&copy; 2024 QIE Guardian Intelligence v2.5.0-PROD</p>
             <div className="flex gap-8">
-              <a href="#" className="hover:text-emerald-500 transition-colors">Audit Reports</a>
+              <a href="#" className="hover:text-emerald-500 transition-colors">Semantic Reports</a>
               <a href="#" className="hover:text-emerald-500 transition-colors">Risk Policy</a>
-              <a href="#" className="hover:text-emerald-500 transition-colors">Network Status</a>
+              <a href="#" className="hover:text-emerald-500 transition-colors">Node Health</a>
             </div>
           </footer>
         </main>
@@ -352,21 +343,21 @@ const Dashboard: React.FC = () => {
             </button>
             
             <div className="text-center mb-10">
-              <div className={`w-20 h-20 rounded-3xl mx-auto mb-8 flex items-center justify-center ${
+              <div className={`w-20 h-20 rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-inner ${
                 modalType === 'vault' ? 'bg-blue-500/10 text-blue-400' : 
                 modalType === 'stake' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
               }`}>
                 {modalType === 'vault' ? <Lock className="w-10 h-10" /> : 
                  modalType === 'stake' ? <TrendingUp className="w-10 h-10" /> : <ShieldAlert className="w-10 h-10" />}
               </div>
-              <h3 className="text-3xl font-black text-white mb-3">
-                {modalType === 'vault' ? 'Deploy Asset Vault' : 
-                 modalType === 'stake' ? 'Consensus Delegation' : 'Protocol Safe-Exit'}
+              <h3 className="text-3xl font-black text-white mb-3 tracking-tight">
+                {modalType === 'vault' ? 'Deploy Secured Vault' : 
+                 modalType === 'stake' ? 'Protocol Delegation' : 'Emergency Liquidation'}
               </h3>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-sm mx-auto">
-                {modalType === 'vault' ? 'Bank-grade cold storage with 24h time-lock and multi-sig guardian protection.' : 
-                 modalType === 'stake' ? 'Secure the QIE Mainnet layers and earn estimated 12.8% APY rewards.' : 
-                 'Emergency liquidation will clear all positions and bridge funds to your primary recovery address.'}
+              <p className="text-slate-400 text-sm leading-relaxed max-w-sm mx-auto font-medium">
+                {modalType === 'vault' ? 'Establish bank-grade isolation with 24h time-lock and QIE multi-sig protocol.' : 
+                 modalType === 'stake' ? 'Contribute to QIE Network stability and accrue estimated 12.8% APY rewards.' : 
+                 'Immediate protocol exit will clear all active positions and route funds to your recovery address.'}
               </p>
             </div>
 
@@ -379,7 +370,7 @@ const Dashboard: React.FC = () => {
               </button>
               <button 
                 onClick={() => {
-                  handleAction(`Transaction broadcast to network: ${modalType?.toUpperCase()}`);
+                  handleAction(`QIE Mainnet Transaction Confirmed: ${modalType?.toUpperCase()}`);
                   setIsModalOpen(false);
                 }}
                 className={`flex-[2] py-5 font-black rounded-[24px] transition-all shadow-2xl flex items-center justify-center gap-3 ${

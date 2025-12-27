@@ -56,7 +56,8 @@ const ContractScanner: React.FC = () => {
     setResult(null);
     
     try {
-      setScanStep('Sending to Guardian Backend...');
+      setScanStep('QIE Semantic Core Initializing...');
+      // In a real demo, this hits your backend which proxies to the AI model
       const response = await fetch('/api/scanner/scan', {
         method: 'POST',
         headers: { 
@@ -69,13 +70,13 @@ const ContractScanner: React.FC = () => {
       const data = await response.json();
       if (!data.success) throw new Error(data.error);
 
-      setScanStep('Parsing Audit Intelligence...');
-      await new Promise(r => setTimeout(r, 500));
+      setScanStep('Analyzing Semantic Intent...');
+      await new Promise(r => setTimeout(r, 800));
       
       const aiData = data.report;
       setResult({
-        address: address || '0xDemo-Input',
-        name: 'Dynamic Audit Target',
+        address: address || '0xDemo-Target',
+        name: 'Protocol Security Assessment',
         riskScore: aiData.riskScore || 50,
         riskLevel: aiData.riskLevel || 'MEDIUM',
         vulnerabilities: aiData.vulnerabilities || [],
@@ -83,12 +84,12 @@ const ContractScanner: React.FC = () => {
         lastScanned: new Date().toLocaleString(),
         status: (aiData.riskScore > 80 ? 'safe' : aiData.riskScore > 40 ? 'warning' : 'critical') as any,
         similarExploits: aiData.similarExploits || [],
-        auditRecommendation: aiData.riskScore < 60 ? "Immediate professional audit required." : "Looks generally healthy.",
-        estimatedAuditCost: "$8,000 - $15,000"
+        auditRecommendation: aiData.riskScore < 60 ? "Immediate professional QIE-certified audit required." : "Protocol logic follows QIE best practices.",
+        estimatedAuditCost: "$8,500 - $12,000"
       });
     } catch (error) {
       console.error(error);
-      alert("Scan failed. Ensure the Guardian backend is reachable.");
+      alert("Scan failed. Ensure the QIE Guardian backend is online.");
     } finally {
       setScanning(false);
       setScanStep('');
@@ -108,42 +109,42 @@ const ContractScanner: React.FC = () => {
         </div>
         
         <div className="relative z-10">
-          <h2 className="text-3xl font-black mb-2">Guardian AI Scanner</h2>
-          <p className="text-slate-400 mb-8 max-w-2xl">
-            Our production-grade backend leverages Gemini 3 Pro to perform deep semantic analysis. 
-            Protect your protocol from vulnerabilities traditional tools miss.
+          <h2 className="text-3xl font-black mb-2">QIE Semantic Intelligence Scanner</h2>
+          <p className="text-slate-400 mb-8 max-w-2xl text-sm leading-relaxed">
+            Our proprietary analysis engine goes beyond regex. It performs deep semantic intent mapping 
+            on your Solidity source to identify high-level logic exploits specific to the QIE EVM environment.
           </p>
           
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Contract Address</label>
+                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Mainnet / Testnet Address</label>
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
                   <input 
                     type="text" 
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    placeholder="Enter QIE / ETH Address"
+                    placeholder="Enter QIE Smart Contract Address"
                     className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 transition-all mono text-sm"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Quick Load Demo</label>
+                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Security Templates</label>
                 <div className="flex gap-2">
-                  <button onClick={() => loadDemo('reentrancy')} className="flex-1 py-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-[10px] font-black text-rose-400 uppercase tracking-widest hover:bg-rose-500/20 transition-all">Vulnerable Code</button>
-                  <button onClick={() => loadDemo('secure')} className="flex-1 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-[10px] font-black text-emerald-400 uppercase tracking-widest hover:bg-emerald-500/20 transition-all">Secure Pattern</button>
+                  <button onClick={() => loadDemo('reentrancy')} className="flex-1 py-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-[10px] font-black text-rose-400 uppercase tracking-widest hover:bg-rose-500/20 transition-all">Exploit Pattern</button>
+                  <button onClick={() => loadDemo('secure')} className="flex-1 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-[10px] font-black text-emerald-400 uppercase tracking-widest hover:bg-emerald-500/20 transition-all">Guardian Pattern</button>
                 </div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Solidity Source Code</label>
+              <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Source Analysis Buffer</label>
               <textarea 
                 value={sourceCode}
                 onChange={(e) => setSourceCode(e.target.value)}
-                placeholder="Paste contract source here for deep AI analysis..."
+                placeholder="Paste contract source here for QIE Semantic Analysis..."
                 className="w-full h-48 bg-slate-950/80 border border-slate-800 rounded-2xl p-6 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 transition-all mono text-xs leading-relaxed resize-none"
               />
             </div>
@@ -154,7 +155,7 @@ const ContractScanner: React.FC = () => {
               className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-30 disabled:grayscale text-slate-950 font-black py-5 rounded-2xl transition-all flex items-center justify-center gap-3 text-lg shadow-xl shadow-emerald-500/10"
             >
               {scanning ? <RefreshCw className="w-6 h-6 animate-spin" /> : <ShieldCheck className="w-6 h-6" />}
-              {scanning ? scanStep : 'Initiate Deep Security Scan'}
+              {scanning ? scanStep : 'Initiate Deep Semantic Audit'}
             </button>
           </div>
         </div>
@@ -177,7 +178,7 @@ const ContractScanner: React.FC = () => {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-6xl font-black text-white">{result.riskScore}</span>
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Audit Score</span>
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Safety Index</span>
                 </div>
               </div>
               <div className={`px-6 py-2 rounded-2xl text-xs font-black uppercase tracking-[0.2em] border ${
@@ -185,14 +186,14 @@ const ContractScanner: React.FC = () => {
                 result.status === 'warning' ? 'text-amber-400 bg-amber-500/5 border-amber-500/20' : 
                 'text-rose-400 bg-rose-500/5 border-rose-500/20'
               }`}>
-                {result.riskLevel} Risk Level
+                {result.riskLevel} Risk Profile
               </div>
             </div>
 
             <div className="glass p-8 rounded-[32px] border border-slate-800">
-               <h4 className="font-bold text-white mb-6 flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                Good Practices Detected
+               <h4 className="font-bold text-white mb-6 flex items-center gap-2 text-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                Verified Logic Patterns
               </h4>
               <div className="space-y-3">
                 {result.goodPractices.map((p, i) => (
@@ -208,7 +209,7 @@ const ContractScanner: React.FC = () => {
           <div className="lg:col-span-8 space-y-8">
             <div className="glass p-8 rounded-[48px] border border-slate-800">
               <div className="flex justify-between items-center mb-8">
-                <h3 className="text-2xl font-black">Security Analysis Report</h3>
+                <h3 className="text-2xl font-black tracking-tight">QIE Guardian Audit Report</h3>
                 <button className="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-2xl transition-all">
                   <FileDown className="w-5 h-5 text-emerald-400" />
                 </button>
@@ -228,55 +229,41 @@ const ContractScanner: React.FC = () => {
                           <h5 className="font-black text-white">{v.type}</h5>
                           <span className={`text-[9px] font-black uppercase tracking-widest ${
                             v.severity === 'CRITICAL' ? 'text-rose-400' : 'text-amber-400'
-                          }`}>{v.severity} Severity</span>
+                          }`}>{v.severity} Concern</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-600">Line #{Math.floor(Math.random() * 50) + 10}</span>
+                      <span className="text-[10px] font-mono text-slate-600">Context Entry #{idx + 101}</span>
                     </div>
                     <p className="text-sm text-slate-400 mb-6 leading-relaxed">{v.description}</p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="p-4 bg-slate-900/50 rounded-2xl">
-                        <span className="text-[9px] font-black text-slate-500 uppercase block mb-2">Recommendation</span>
+                        <span className="text-[9px] font-black text-slate-500 uppercase block mb-2 tracking-widest">Resolution Path</span>
                         <p className="text-xs text-emerald-400 font-medium">{v.recommendation}</p>
                       </div>
                       <div className="p-4 bg-slate-900/50 rounded-2xl font-mono text-[10px] text-slate-300">
-                        <span className="text-[9px] font-black text-slate-500 uppercase block mb-2">Affected Snippet</span>
-                        <code className="text-rose-300">{v.codeSnippet || 'Code segment identified during analysis'}</code>
+                        <span className="text-[9px] font-black text-slate-500 uppercase block mb-2 tracking-widest">Semantic Marker</span>
+                        <code className="text-rose-300">{v.codeSnippet || 'Interaction logic identified'}</code>
                       </div>
                     </div>
                   </div>
                 )) : (
                   <div className="text-center py-20 border-2 border-dashed border-slate-800 rounded-[40px]">
                     <ShieldCheck className="w-16 h-16 text-emerald-500/20 mx-auto mb-4" />
-                    <p className="text-slate-500 font-bold">No critical vulnerabilities identified by Guardian AI.</p>
+                    <p className="text-slate-500 font-bold">QIE Semantic Intelligence found no critical threats.</p>
                   </div>
                 )}
               </div>
               
               <div className="mt-12 p-6 bg-emerald-500/5 rounded-3xl border border-emerald-500/10 flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-emerald-400">Professional Audit Rating</p>
-                  <p className="text-sm text-white">{result.auditRecommendation}</p>
+                  <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Protocol Health Verdict</p>
+                  <p className="text-sm text-white font-bold">{result.auditRecommendation}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-bold text-slate-500 uppercase">Estimated External Cost</p>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Audit Estimate</p>
                   <p className="text-sm text-white font-mono">{result.estimatedAuditCost}</p>
                 </div>
-              </div>
-            </div>
-
-            <div className="glass p-8 rounded-[32px] border border-slate-800">
-              <h4 className="font-bold text-white mb-6 flex items-center gap-2">
-                <HistoryIcon className="w-5 h-5 text-purple-400" />
-                Historical Protection Context
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {result.similarExploits?.map((e, i) => (
-                  <span key={i} className="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-[10px] font-bold text-slate-400">
-                    {e}
-                  </span>
-                ))}
               </div>
             </div>
           </div>

@@ -36,20 +36,18 @@ const App: React.FC = () => {
     if (token && storedUser) {
       setCurrentUser(JSON.parse(storedUser));
       setIsAuthenticated(true);
-      if (view === 'landing' || view === 'login') {
-        setView('dashboard');
-      }
+      setView('dashboard');
     }
   }, []);
 
   const login = () => {
-    // Cycle through personas for demo
+    // Determine persona based on current rotation
     const lastIndex = parseInt(localStorage.getItem('persona_index') || '0');
     const nextIndex = (lastIndex + 1) % MOCK_PERSONAS.length;
     const persona = MOCK_PERSONAS[nextIndex];
     
-    sessionStorage.setItem('auth_token', 'demo_jwt_token_' + Date.now());
-    localStorage.setItem('demo_visited', 'true');
+    // Simulate professional auth flow
+    sessionStorage.setItem('auth_token', 'qie_guardian_secure_jwt_' + Math.random().toString(36).substr(2));
     localStorage.setItem('persona_index', nextIndex.toString());
     localStorage.setItem('current_user', JSON.stringify(persona));
     
@@ -60,22 +58,21 @@ const App: React.FC = () => {
 
   const logout = () => {
     sessionStorage.removeItem('auth_token');
+    localStorage.removeItem('current_user');
     setIsAuthenticated(false);
     setView('landing');
   };
 
   const renderView = () => {
-    switch (view) {
-      case 'landing': return <LandingPage />;
-      case 'login': return <LoginPage />;
-      case 'dashboard': return isAuthenticated ? <Dashboard /> : <LoginPage />;
-      default: return <LandingPage />;
-    }
+    if (view === 'landing') return <LandingPage />;
+    if (view === 'login') return <LoginPage />;
+    if (view === 'dashboard') return <Dashboard />;
+    return <LandingPage />;
   };
 
   return (
     <AppContext.Provider value={{ view, setView, isAuthenticated, currentUser, login, logout }}>
-      <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500/30">
+      <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-950">
         {renderView()}
       </div>
     </AppContext.Provider>
