@@ -103,4 +103,4 @@ Customized security environments for different user roles:
 - **Deployment:** Docker / Vercel Edge
 
 ---
-*Built with passion for the QIE Global Hackathon 2024 by Team E-FDT.*
+*Built with passion for the QIE Global Hackathon 2025 by Team E-FDT.*
